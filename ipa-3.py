@@ -41,7 +41,16 @@ def relationship_status(from_member, to_member, social_graph):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    from_member_following=social_graph[from_member]['following']
+    to_member_following=social_graph[to_member]['following']
+    if to_member in from_member_following and from_member in to_member_following:
+        print('Friends')
+    elif to_member in from_member_following and from_member not in to_member_following:
+        print('Follower')
+    elif from_member in to_member_following and to_member not in from_member_following:
+        print('Followed by')
+    else:
+        print('No Relationship')
 
 
 def tic_tac_toe(board):
@@ -70,7 +79,27 @@ def tic_tac_toe(board):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    winners=''
+    size=len(board)
+    count_col=0
+    for col in range(size):
+        if all(board[row][col] == board[0][col] != ' ' for row in range(size)):
+            winners=board[0][col]
+    
+    for row in board:
+        for row_count in range(size):
+            if row[0] == all(row[row_count]) != ' ':
+                winners=row[0]
+    
+    if all(board[diag][diag] == board[0][0] != ' ' for diag in range(size)):
+        winners=board[0][0]
+    if all(board[diag][size - diag - 1] == board[0][size - 1] != ' ' for diag in range(size)):
+        winners=board[0][size - 1]
+        
+    if winners != '':
+        print(winners)
+    else:
+        print('No winner')
 
 def eta(first_stop, second_stop, route_map):
     '''ETA.
@@ -103,4 +132,16 @@ def eta(first_stop, second_stop, route_map):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    distance=0
+    places=tuple(route_map.keys())
+    for i in range(len(places)):
+        if first_stop in places[i] and places[i].index(first_stop)==0:
+            distance+=route_map[places[i]]['travel_time_mins']
+            start=places.index(places[i])+1
+            break
+    for i in range(start,len(places)):
+        distance+=route_map[places[i]]['travel_time_mins']
+        if second_stop in places[i] and places[i].index(second_stop)==0:
+            distance-=route_map[places[i]]['travel_time_mins']
+            break
+    return(distance)
